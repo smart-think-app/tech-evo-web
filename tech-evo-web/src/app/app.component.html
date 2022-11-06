@@ -13,7 +13,7 @@
       Roadmap
     </button>
     <mat-menu #roadmapMenu="matMenu">
-      <button mat-menu-item routerLink="/roadmap">Graph</button>
+      <button mat-menu-item routerLink="/roadmap">Roadmap</button>
       <button mat-menu-item routerLink="/documents">Documents</button>
     </mat-menu>
   </div>
@@ -22,17 +22,21 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item routerLink="">
         <mat-icon>person</mat-icon>
         <span>Above</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item routerLink="/topics">
         <mat-icon>voicemail</mat-icon>
         <span>Topics</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item routerLink="/roadmap">
         <mat-icon>token</mat-icon>
         <span>Roadmap</span>
+      </button>
+      <button mat-menu-item routerLink="documents">
+        <mat-icon>description</mat-icon>
+        <span>Documents</span>
       </button>
     </mat-menu>
   </div>
