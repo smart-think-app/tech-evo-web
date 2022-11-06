@@ -1,0 +1,45 @@
+<div class="menu-container">
+  <div class="menu-web">
+    <button class="menu-button" mat-button>
+      Above
+    </button>
+
+    <button class="menu-button" mat-button [matMenuTriggerFor]="topicsMenu">
+      Topics
+    </button>
+    <mat-menu #topicsMenu="matMenu">
+      <button mat-menu-item>Programing Language</button>
+      <button mat-menu-item>Microservices</button>
+      <button mat-menu-item>Devops</button>
+      <button mat-menu-item>Database</button>
+      <button mat-menu-item>Cloud Providers</button>
+    </mat-menu>
+
+    <button class="menu-button" mat-button [matMenuTriggerFor]="roadmapMenu">
+      Roadmap
+    </button>
+    <mat-menu #roadmapMenu="matMenu">
+      <button mat-menu-item>Graph</button>
+      <button mat-menu-item>Documents</button>
+    </mat-menu>
+  </div>
+  <div class="menu-mobile">
+    <button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Above</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>voicemail</mat-icon>
+        <span>Topics</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>token</mat-icon>
+        <span>Roadmap</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

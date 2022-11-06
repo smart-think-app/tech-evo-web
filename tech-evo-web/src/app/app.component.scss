@@ -1,0 +1,32 @@
+.menu-container {
+    background-color: rgb(21, 21, 66);
+
+    .menu-button {
+        background-color: transparent;
+        border: none;
+        padding: 15px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    @media only screen and (max-width:  1400px) {
+        .menu-web {
+            display: inline;
+        }
+
+        .menu-mobile {
+            display: none;
+        }
+    }
+
+    @media only screen and (max-width:  400px) {
+        .menu-web {
+            display: none;
+        }
+
+        .menu-mobile {
+            display: inline;
+        }
+    }
+
+}
