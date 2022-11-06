@@ -1,26 +1,20 @@
 <div class="menu-container">
   <div class="menu-web">
-    <button class="menu-button" mat-button>
+    <button class="menu-button" mat-button routerLink="/">
       Above
     </button>
 
-    <button class="menu-button" mat-button [matMenuTriggerFor]="topicsMenu">
+    <button class="menu-button" mat-button
+     routerLink="/topics">
       Topics
     </button>
-    <mat-menu #topicsMenu="matMenu">
-      <button mat-menu-item>Programing Language</button>
-      <button mat-menu-item>Microservices</button>
-      <button mat-menu-item>Devops</button>
-      <button mat-menu-item>Database</button>
-      <button mat-menu-item>Cloud Providers</button>
-    </mat-menu>
 
     <button class="menu-button" mat-button [matMenuTriggerFor]="roadmapMenu">
       Roadmap
     </button>
     <mat-menu #roadmapMenu="matMenu">
-      <button mat-menu-item>Graph</button>
-      <button mat-menu-item>Documents</button>
+      <button mat-menu-item routerLink="/roadmap">Graph</button>
+      <button mat-menu-item routerLink="/documents">Documents</button>
     </mat-menu>
   </div>
   <div class="menu-mobile">
@@ -43,3 +37,4 @@
     </mat-menu>
   </div>
 </div>
+<router-outlet></router-outlet>
