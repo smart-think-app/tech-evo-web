@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: TopicsComponent
+  },
+  {
+    path: 'detail/:id',
+    loadChildren: () => import('../topic-detail/topic-detail.module').then(m => m.TopicDetailModule)
   }
 ];
 

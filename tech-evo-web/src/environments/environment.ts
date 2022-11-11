@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  domain_tech_evo_api: 'https://tech-evo-api.herokuapp.com'
 };
 
 /*

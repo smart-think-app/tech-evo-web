@@ -1,47 +1,17 @@
 <div class="row p-t-60">
-    <h1 style="text-align: center;font-weight: bold;" >Keys And Skills</h1>
-  <div class="col-6 col-md-3">
+  <h1 style="text-align: center; font-weight: bold">Keys And Skills</h1>
+  <div  *ngFor="let item of skillData" class="col-6 col-md-3">
     <mat-card>
-        <mat-card-content>
-          <h2 class="example-h2 m-auto text-a-center">Result</h2>
-    
-          <mat-progress-spinner class="m-auto" [mode]="mode" [value]="value">
-          </mat-progress-spinner>
-        </mat-card-content>
-      </mat-card>
-  </div>
-  <div class="col-6 col-md-3">
-    <mat-card>
-        <mat-card-content>
-          <h2 class="example-h2 m-auto text-a-center">Result</h2>
-    
-          <mat-progress-spinner class="m-auto" [mode]="mode" [value]="value">
-          </mat-progress-spinner>
-        </mat-card-content>
-      </mat-card>
-  </div>
-  <div class="col-6 col-md-3">
-    <mat-card>
-        <mat-card-content>
-          <h2 class="example-h2 m-auto text-a-center">Result</h2>
-    
-          <mat-progress-spinner class="m-auto" [mode]="mode" [value]="value">
-          </mat-progress-spinner>
-        </mat-card-content>
-      </mat-card>
-  </div>
-  <div class="col-6 col-md-3">
-    <mat-card>
-        <mat-card-content>
-          <h2 class="example-h2 m-auto text-a-center">Result</h2>
-    
-          <mat-progress-spinner class="m-auto" [mode]="mode" [value]="value">
-          </mat-progress-spinner>
-        </mat-card-content>
-      </mat-card>
+      <mat-card-content>
+        <h2 class="example-h2 m-auto text-a-center">{{item.display}}</h2>
+
+        <mat-progress-spinner class="m-auto" [mode]="mode" [value]="item.value">
+        </mat-progress-spinner>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 <div class="p-t-60 decription-container">
-    <h1 style="text-align: center;font-weight: bold;" >Description</h1>
-    <h3 style="text-align: center;">My name is Huy</h3>
+  <h1 style="text-align: center; font-weight: bold">Description</h1>
+  <h3 style="text-align: center">My name is Huy</h3>
 </div>
