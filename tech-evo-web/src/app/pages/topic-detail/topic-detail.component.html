@@ -1,1 +1,7 @@
-<p>topic-detail works!</p>
+<div *ngIf="isActiveTopic">
+    <h1>{{topicDetail.title}}</h1>
+    <h5>Date:{{topicDetail.created_date | date}}</h5>
+    <h2>{{topicDetail.short_body}}</h2>
+    <div>-------------------------------------------------------------</div>
+    <h5>{{topicDetail.body}}</h5>
+</div>
