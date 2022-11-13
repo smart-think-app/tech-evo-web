@@ -5,7 +5,7 @@
       <mat-card class="example-card" routerLink="detail/{{item.public_id}}">
         <mat-card-header>
           <mat-card-title>{{ item.title }}</mat-card-title>
-          <mat-card-subtitle>{{ item.created_date }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ item.created_date | date}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image src="{{ item.image_url }}" alt="Photo of tech" />
         <mat-card-content>
