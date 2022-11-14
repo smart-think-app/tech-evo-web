@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TopicDto, TopTopicDto, TopicDetailDto } from './../dto/topics.dto';
+import {
+  TopicDto,
+  TopTopicDto,
+  TopicDetailDto,
+  GetTopicsRequestDto,
+} from './../dto/topics.dto';
 import { ApiResponseBase } from './../dto/api-response.dto';
 import { environment } from './../../environments/environment';
 
@@ -41,9 +46,13 @@ export class TopicsService {
   }
   constructor(private _httpClient: HttpClient) {}
 
-  getTopicFromAPI() {
+  getTopicFromAPI(request: GetTopicsRequestDto) {
     this._httpClient
-      .get<ApiResponseBase>(environment.domain_tech_evo_api + '/topics')
+      .get<ApiResponseBase>(
+        environment.domain_tech_evo_api +
+          '/topics' +
+          `?type=${request.type}&page_index=${request.page_index}&page_size=${request.page_size}`
+      )
       .subscribe({
         next: (resp) => {
           if (resp.code == 200) {
@@ -57,7 +66,7 @@ export class TopicsService {
                       created_date: item.created_date,
                       image_url: item.image_url,
                       type: item.type,
-                      public_id: item.public_id
+                      public_id: item.public_id,
                     };
                     return topic;
                   })

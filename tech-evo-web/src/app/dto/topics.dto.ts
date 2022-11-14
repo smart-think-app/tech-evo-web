@@ -21,3 +21,9 @@ export interface TopicDetailDto {
   type: number;
   public_id: string;
 }
+
+export interface GetTopicsRequestDto {
+  type: number;
+  page_index: number;
+  page_size: number;
+}
