@@ -6,9 +6,7 @@
     cursor: pointer;
 }
 
-.example-card:hover {
-    background-color: #d3ccdf;
-}
+@import '../../../colors.scss';
 
 .load-more {
     cursor: pointer;
@@ -16,4 +14,9 @@
 
 .load-more:hover {
     color: rgb(44, 44, 255);
+}
+
+.example-card {
+    background-color: rgb(201, 201, 201);
+    margin-top: 10px;
 }
