@@ -1,5 +1,6 @@
+@import '../colors.scss';
 .menu-container {
-    background-color: #673ab7;
+    background-color: $main-bg-color;
 
     .menu-button {
         background-color: transparent;

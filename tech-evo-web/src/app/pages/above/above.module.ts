@@ -5,7 +5,7 @@ import { AboveRoutingModule } from './above-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SkillsService } from 'src/app/services/skills.service';
-
+import {MatChipsModule} from '@angular/material/chips';
 @NgModule({
   declarations: [AboveComponent],
   imports: [
@@ -13,6 +13,7 @@ import { SkillsService } from 'src/app/services/skills.service';
     AboveRoutingModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatChipsModule
   ],
   providers: [SkillsService],
 })
