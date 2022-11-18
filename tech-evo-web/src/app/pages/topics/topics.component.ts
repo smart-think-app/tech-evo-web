@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TopicTypeEnum } from 'src/app/enums/topic-type.enum';
 import { TopicsService } from 'src/app/services/topics.service';
-import { TopicDto, TopTopicDto } from './../../dto/topics.dto';
+import {
+  GetTopicsRequestDto,
+  TopicDto,
+  TopTopicDto,
+} from './../../dto/topics.dto';
 
 @Component({
   selector: 'app-topics',
@@ -9,87 +15,129 @@ import { TopicDto, TopTopicDto } from './../../dto/topics.dto';
   styleUrls: ['./topics.component.scss'],
 })
 export class TopicsComponent implements OnInit {
-  topTopicsDto: TopTopicDto = {
-    devops: [],
-    backend: [],
-  };
   selected = new FormControl(0);
-  backendPageIndex = 1;
-  previousBackendPageIndex = 0;
-  devopsPageIndex = 1;
-  previousDevopsPageIndex = 0;
+  devopsTopics: TopicDto[] = [];
+  devopsCurrentIndex = 0;
+
+  backendTopics: TopicDto[] = [];
+  backendCurrentIndex = 1;
+
+  pageSize = 2;
   constructor(private _topicService: TopicsService) {}
 
   ngOnInit(): void {
-    this._topicService.getTopics.subscribe((data) => {
-      switch (this.selected.value) {
-        case 0:
-          if (this.previousBackendPageIndex == this.backendPageIndex) {
-            this.topTopicsDto.backend = data;
-          } else {
-            this.topTopicsDto.backend = this.topTopicsDto.backend.concat(data);
-            this.previousBackendPageIndex = this.backendPageIndex;
-          }
-          break;
-        case 1:
-          if (this.previousDevopsPageIndex == this.devopsPageIndex) {
-            this.topTopicsDto.devops = data;
-          } else {
-            this.topTopicsDto.devops = this.topTopicsDto.devops.concat(data);
-            this.previousDevopsPageIndex = this.devopsPageIndex;
-          }
-          break;
-        default:
-          break;
-      }
-    });
-    this._topicService.getTopicFromAPI({
-      type: 1,
-      page_index: 1,
-      page_size: 2,
+    this.initAPI({
+      type: TopicTypeEnum.Backend,
+      page_index: this.backendCurrentIndex,
+      page_size: this.pageSize,
     });
   }
 
-  initAPI() {
-    let type = 1;
-    let pageIndex = this.backendPageIndex;
-    let isLoadData = false;
-    switch (this.selected.value) {
-      case 0:
-        type = 1;
-        pageIndex = this.backendPageIndex;
-        if (this.previousBackendPageIndex != pageIndex) {
-          isLoadData = true;
+  initAPI(request: GetTopicsRequestDto) {
+    this._topicService.getTopicFromAPI(request).subscribe((result) => {
+      if (result.code == HttpStatusCode.Ok) {
+        this.appendTopics(request.type, result.data);
+      }
+    });
+  }
+
+  appendTopics(topicType: number, data: TopicDto[]) {
+    switch (topicType) {
+      case TopicTypeEnum.Backend:
+        if (data.length != 0) {
+          this.backendCurrentIndex += 1;
         }
+        this.backendTopics = this.backendTopics.concat(data);
         break;
-      case 1:
-        type = 2;
-        pageIndex = this.devopsPageIndex;
-        if (this.previousDevopsPageIndex != pageIndex) {
-          isLoadData = true;
+      case TopicTypeEnum.Devops:
+        if (data.length != 0) {
+          this.devopsCurrentIndex += 1;
         }
+        this.devopsTopics = this.devopsTopics.concat(data);
         break;
       default:
         break;
-    }
-    
-    if (isLoadData) {
-      console.log("load data")
-      this._topicService.getTopicFromAPI({
-        type: type,
-        page_index: pageIndex,
-        page_size: 2,
-      });
     }
   }
 
   switchTab(data: any) {
     this.selected.setValue(data);
-    this.initAPI();
+    this.initDataTab(data);
+  }
+
+  initDataTab(data: any) {
+    let requestTopicType = 0;
+    switch (data) {
+      case 0: //backend tab
+        if (this.backendCurrentIndex == 0) {
+          requestTopicType = TopicTypeEnum.Backend;
+          this.backendCurrentIndex = 1;
+        }
+        break;
+      case 1: //Devops tab
+        if (this.devopsCurrentIndex == 0) {
+          requestTopicType = TopicTypeEnum.Devops;
+          this.devopsCurrentIndex = 1;
+        }
+        break;
+      default:
+        break;
+    }
+    if (requestTopicType > 0) {
+      this.initAPI({
+        type: requestTopicType,
+        page_size: this.pageSize,
+        page_index: 1,
+      });
+    }
   }
 
   loadMoreBackendTopics() {
-    this.backendPageIndex += 1;
-    this.initAPI();
+    this.initAPI({
+      type: TopicTypeEnum.Backend,
+      page_index: this.backendCurrentIndex,
+      page_size: this.pageSize,
+    });
+  }
+
+  loadMoreDevopsTopics() {
+    this.initAPI({
+      type: TopicTypeEnum.Devops,
+      page_index: this.devopsCurrentIndex,
+      page_size: this.pageSize,
+    });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    //In chrome and some browser scroll is given to body tag
+    let pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      document.documentElement.offsetHeight;
+    let max = document.documentElement.scrollHeight;
+    // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
+    if (pos == max) {
+      let requestTopic: GetTopicsRequestDto = {
+        type: 0,
+        page_size: this.pageSize,
+        page_index: 0,
+      };
+      switch (this.selected.value) {
+        case 0: //backend tab
+          requestTopic.type = TopicTypeEnum.Backend;
+          requestTopic.page_index = this.backendCurrentIndex;
+          break;
+        case 1: //devops tab
+          requestTopic.type = TopicTypeEnum.Devops;
+          requestTopic.page_index = this.devopsCurrentIndex;
+          break;
+        default:
+          break;
+      }
+
+      if (requestTopic.type > 0 && requestTopic.page_index > 0) {
+        this.initAPI(requestTopic);
+      }
+    }
   }
 }

@@ -14,15 +14,6 @@ import { environment } from './../../environments/environment';
   providedIn: 'root',
 })
 export class TopicsService {
-  private _topicsData: BehaviorSubject<TopicDto[]> = new BehaviorSubject<
-    TopicDto[]
-  >([]);
-
-  private _topTopicsData: BehaviorSubject<TopTopicDto> =
-    new BehaviorSubject<TopTopicDto>({
-      backend: [],
-      devops: [],
-    });
 
   private _topicDetailData: BehaviorSubject<TopicDetailDto> =
     new BehaviorSubject<TopicDetailDto>({
@@ -34,12 +25,7 @@ export class TopicsService {
       type: 0,
       image_url: '',
     });
-  get getTopics() {
-    return this._topicsData.asObservable();
-  }
-  get getTopTopics() {
-    return this._topTopicsData.asObservable();
-  }
+  
 
   get getTopicDetail() {
     return this._topicDetailData.asObservable();
@@ -47,48 +33,12 @@ export class TopicsService {
   constructor(private _httpClient: HttpClient) {}
 
   getTopicFromAPI(request: GetTopicsRequestDto) {
-    this._httpClient
+    return this._httpClient
       .get<ApiResponseBase>(
         environment.domain_tech_evo_api +
           '/topics' +
           `?type=${request.type}&page_index=${request.page_index}&page_size=${request.page_size}`
       )
-      .subscribe({
-        next: (resp) => {
-          if (resp.code == 200) {
-            this._topicsData.next(
-              resp.data == null
-                ? []
-                : resp.data.map((item: any) => {
-                    const topic: TopicDto = {
-                      title: item.title,
-                      short_body: item.short_body,
-                      created_date: item.created_date,
-                      image_url: item.image_url,
-                      type: item.type,
-                      public_id: item.public_id,
-                    };
-                    return topic;
-                  })
-            );
-          }
-        },
-      });
-  }
-
-  getTopTopicFromAPI() {
-    this._httpClient
-      .get<ApiResponseBase>(environment.domain_tech_evo_api + '/topics/top')
-      .subscribe({
-        next: (resp) => {
-          if (resp.code == 200) {
-            this._topTopicsData.next({
-              backend: resp.data.backend,
-              devops: resp.data.devops,
-            });
-          }
-        },
-      });
   }
 
   getTopicDetailFromAPI(publicId: string) {
