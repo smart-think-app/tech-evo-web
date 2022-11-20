@@ -109,7 +109,7 @@ export class TopicsComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
+  async onWindowScroll() {
     //In chrome and some browser scroll is given to body tag
     let pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
@@ -136,7 +136,7 @@ export class TopicsComponent implements OnInit {
       }
 
       if (requestTopic.type > 0 && requestTopic.page_index > 0) {
-        this.initAPI(requestTopic);
+        await this.initAPI(requestTopic);
       }
     }
   }
